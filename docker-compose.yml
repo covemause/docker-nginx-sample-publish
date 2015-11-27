@@ -1,0 +1,21 @@
+# vi: set et ts=2 sw=2 sts=0 :
+
+nginx:
+  build: nginx/
+  ports:
+    - 80:80
+
+rocketchat:
+  image: rocketchat/rocket.chat:develop
+  links:
+    - mongo:mongo
+  ports:
+    - 50000:50000
+  environment:
+    - PORT=50000
+    - ROOT_URL=http://www.example.com/rocketchat/
+    - MONGO_URL=mongodb://mongo:27017/rocketchat
+
+mongo:
+  image: mongo
+  command: mongod --smallfiles --oplogSize 128
